@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<title>Расписание · 02.ССД-23-5</title>
+<title>Расписание · ССД-23-5</title>
 
 <meta name="theme-color" content="#4f46e5">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -25,6 +25,8 @@
   --accent:#4f46e5;
   --accent-soft:#eef0ff;
   --chip:#f1f2f7;
+  --online-bg:#dbeafe;
+  --online-fg:#1d4ed8;
   --shadow:0 1px 2px rgba(16,24,40,.04), 0 6px 16px -8px rgba(16,24,40,.16);
 }
 @media (prefers-color-scheme:dark){
@@ -39,6 +41,8 @@
     --accent:#818cf8;
     --accent-soft:#1c2033;
     --chip:#1f2331;
+    --online-bg:#1b2a52;
+    --online-fg:#93c5fd;
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 8px 22px -12px rgba(0,0,0,.7);
   }
 }
@@ -73,8 +77,19 @@ body{
   color:#fff;font-size:12px;font-weight:800;letter-spacing:.02em;
   display:flex;align-items:center;justify-content:center;
 }
+.ab-titles{min-width:0}
 .ab-title{font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
-.ab-sub{font-size:11.5px;color:var(--muted);margin-top:1px}
+.ab-sub{font-size:11.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ab-wish{
+  margin-left:auto;flex:0 1 auto;
+  font-size:11.5px;line-height:1.3;font-weight:600;
+  color:var(--accent);
+  text-align:right;max-width:130px;
+  background:var(--accent-soft);
+  padding:6px 10px;border-radius:11px;
+  animation:fadeIn .5s ease both;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
 /* ---------- КОНТЕНТ ---------- */
 main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
@@ -101,7 +116,7 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 .lesson::before{
   content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--c,#6366f1);
 }
-.lesson.past{opacity:.48}
+.lesson.past{opacity:.42;filter:saturate(.55)}
 .lesson.now{box-shadow:0 0 0 2px var(--accent),var(--shadow)}
 .lesson.now::after{
   content:"";position:absolute;right:12px;top:12px;
@@ -122,23 +137,36 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 .ltype{font-size:12px;color:var(--muted);margin-bottom:7px;line-height:1.3}
 .lmeta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12.5px}
 .lteacher{opacity:.88}
-.lteacher i{font-style:normal;color:var(--faint);font-size:11.5px}
 .lroom{
   display:inline-flex;align-items:center;gap:3px;
   background:var(--chip);color:var(--muted);
   padding:2.5px 8px;border-radius:8px;
   font-size:11.5px;font-weight:700;letter-spacing:.01em;
+  text-decoration:none;
 }
 .lroom svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lroom.online{
+  background:var(--online-bg);color:var(--online-fg);
+  transition:transform .12s,filter .15s;
+}
+a.lroom.online{cursor:pointer}
+a.lroom.online:active{transform:scale(.94);filter:brightness(.95)}
+a.lroom.online::after{
+  content:"";width:9px;height:9px;margin-left:1px;
+  background:currentColor;
+  -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4l-9 9M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6'/></svg>") center/contain no-repeat;
+          mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round' d='M14 4h6v6M20 4l-9 9M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6'/></svg>") center/contain no-repeat;
+  opacity:.75;
+}
 
 /* ---------- ПУСТОЕ СОСТОЯНИЕ ---------- */
 .empty{
-  background:var(--card);border-radius:16px;padding:28px 20px;
+  background:var(--card);border-radius:16px;padding:32px 22px;
   text-align:center;box-shadow:var(--shadow);
 }
-.empty svg{width:40px;height:40px;stroke:var(--faint);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:10px}
-.empty .et{font-size:15px;font-weight:650}
-.empty .es{font-size:12.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+.empty svg{width:44px;height:44px;stroke:var(--faint);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-bottom:12px}
+.empty .et{font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.25}
+.empty .es{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.45}
 .next-box{
   margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
   font-size:12.5px;color:var(--muted);text-align:left;
@@ -152,9 +180,11 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
   border:1px solid var(--line);background:var(--card);color:var(--text);
   font-size:19px;line-height:1;font-weight:600;
   display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:transform .12s,background .15s;
+  transition:transform .12s,background .15s,opacity .15s;
 }
 .nav-btn:active{transform:scale(.92);background:var(--chip)}
+.nav-btn:disabled{opacity:.3;cursor:default}
+.nav-btn:disabled:active{transform:none;background:var(--card)}
 .nav-title{flex:1;text-align:center;min-width:0}
 .nt-main{font-size:15px;font-weight:700;letter-spacing:-.02em}
 .nt-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
@@ -188,11 +218,14 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 .mcell:active{transform:scale(.93)}
 .mcell .mnum{font-size:13.5px;font-weight:600;line-height:1}
 .mcell.out{opacity:.28}
+.mcell.disabled{opacity:.28;cursor:default}
+.mcell.disabled:active{transform:none}
 .mcell.today{background:var(--accent-soft)}
 .mcell.today .mnum{color:var(--accent);font-weight:800}
 .mcell.sel{background:var(--accent);color:#fff}
 .mcell.sel .mnum{color:#fff;font-weight:800}
 .mcell.sel .dots i{background:#fff!important}
+.mcell.past .mnum{color:var(--faint)}
 .dots{display:flex;gap:2.5px;height:5px;align-items:center}
 .dots i{width:5px;height:5px;border-radius:50%;display:block;background:var(--accent)}
 
@@ -220,7 +253,7 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
   transition:background .18s,color .18s;
 }
 .tabbar button.active{color:var(--accent);background:var(--accent-soft)}
-.tabbar svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body>
@@ -228,10 +261,11 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 <div class="appbar">
   <div class="ab-inner">
     <div class="ab-logo">ССД</div>
-    <div>
+    <div class="ab-titles">
       <div class="ab-title">Расписание</div>
-      <div class="ab-sub">02.ССД-23-5 · 4 курс · 7 семестр</div>
+      <div class="ab-sub">ССД-23-5 · 4 курс · 7 семестр</div>
     </div>
+    <div class="ab-wish" id="wish"></div>
   </div>
 </div>
 
@@ -240,15 +274,15 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 <nav class="tabbar">
   <div class="tabbar-inner">
     <button data-view="today" class="active">
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="12" cy="15.2" r="1.7" fill="currentColor" stroke="none"/></svg>
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
       Сегодня
     </button>
     <button data-view="week">
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M8 14h2M12 14h2M16 14h1M8 17.5h2M12 17.5h2"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M4 19V11M8 19V6M12 19V14M16 19V8M20 19V13"/></svg>
       Неделя
     </button>
     <button data-view="month">
-      <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="14.5" r="1" fill="currentColor" stroke="none"/><circle cx="15.5" cy="14.5" r="1" fill="currentColor" stroke="none"/><circle cx="8.5" cy="18" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="18" r="1" fill="currentColor" stroke="none"/></svg>
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2.5"/><path d="M3 9.5h18M8 2.5v3.5M16 2.5v3.5"/><circle cx="8" cy="14" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".9" fill="currentColor" stroke="none"/><circle cx="16" cy="14" r=".9" fill="currentColor" stroke="none"/><circle cx="8" cy="17.5" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="17.5" r=".9" fill="currentColor" stroke="none"/></svg>
       Месяц
     </button>
   </div>
@@ -256,10 +290,16 @@ main{max-width:720px;margin:0 auto;padding:16px 14px 8px;display:block}
 
 <script>
 /* =========================================================
+   ГРАНИЦЫ СЕМЕСТРА
+   Расписание 7 семестра: 1 сентября — 31 декабря 2026.
+   Когда появится расписание 8 семестра — просто расширим эти даты.
+   ========================================================= */
+const SEM_START = new Date(2026, 8, 1);   // 1 сентября 2026
+const SEM_END   = new Date(2026, 11, 31); // 31 декабря 2026
+
+/* =========================================================
    ДАННЫЕ
    ========================================================= */
-
-/* Цвета по дисциплинам */
 const SUBJECT_COLORS = {
   'Прикладное программное обеспечение': '#6366f1',
   'Философия': '#f59e0b',
@@ -269,123 +309,159 @@ const SUBJECT_COLORS = {
   'Интеллектуальные цифровые технологии': '#8b5cf6'
 };
 
-/* 1 = понедельник ... 6 = суббота, 0 = воскресенье
-   repeat: 'weekly' | 'odd' (1 неделя) | 'even' (2 неделя)
-   dates:  конкретные даты (ГГГГ-ММ-ДД)                    */
+const ONLINE_LINKS = {
+  'Цифровой мониторинг в профессиональной деятельности':
+    'https://vk.ru/away.php?to=https%3A%2F%2Ftelemost.yandex.ru%2Fj%2F94556843071864&utf=1',
+  'Основы электронной коммерции':
+    'https://vk.ru/away.php?to=https%3A%2F%2Fus04web.zoom.us%2Fj%2F79641778686%3Fpwd%3DNigA31i0uLxNFS5MWd8AbbZmeXZSbw.1&utf=1'
+};
+
+const TYPE_SHORT = {
+  'Занятие семинарского типа': 'Семинар',
+  'Занятие лекционного типа':  'Лекция',
+  'Групповая консультация':    'Консультация'
+};
+const shortType = t => TYPE_SHORT[t] || t;
+
+const WISHES = [
+  'Хорошего дня! ☀️',
+  'Ты справишься! 💪',
+  'Удачи на парах! 🍀',
+  'Пусть всё получится ✨',
+  'Верь в себя 🌟',
+  'Учись с удовольствием 😊',
+  'Отличный сегодня день!',
+  'Не забывай отдыхать 🌿',
+  'Продуктивного дня! 🚀',
+  'Ты молодец! 👏',
+  'Пятница близко 😉',
+  'Кофе и вперёд! ☕',
+  'Знания — сила! 📚',
+  'Дыши глубже 🌬️',
+  'Всё будет хорошо 💫',
+  'Сессия не страшна 🦸',
+  'Спокойствие и только спокойствие 🧘',
+  'Сделай сегодня маленький шаг 🌱'
+];
+
+/* 1 = понедельник ... 6 = суббота
+   repeat: 'weekly' | 'odd' (1-я неделя) | 'even' (2-я неделя)
+   dates:  конкретные даты (ГГГГ-ММ-ДД)
+   Аудитории с буквами (В1П…) считаются дистанционными              */
 const LESSONS = [
 
   /* ---------------- ПОНЕДЕЛЬНИК ---------------- */
   { d:1, s:'09:00', e:'10:30', subj:'Прикладное программное обеспечение',
-    type:'Занятие семинарского типа', teacher:'Деменев А.В.', pos:'доцент', room:'1419',
+    type:'Занятие семинарского типа', teacher:'Деменев А.В.', room:'1419',
     dates:['2026-09-21','2026-10-19','2026-11-16','2026-11-30','2026-12-21'] },
 
   { d:1, s:'10:50', e:'12:20', subj:'Прикладное программное обеспечение',
-    type:'Занятие семинарского типа', teacher:'Деменев А.В.', pos:'доцент', room:'1419',
+    type:'Занятие семинарского типа', teacher:'Деменев А.В.', room:'1419',
     dates:['2026-09-21','2026-10-19','2026-11-16','2026-11-30','2026-12-21'] },
 
   /* ---------------- ВТОРНИК ---------------- */
   { d:2, s:'09:00', e:'10:30', subj:'Философия',
-    type:'Занятие лекционного типа', teacher:'Газгиреева Л.Х.', pos:'профессор', room:'1327',
+    type:'Занятие лекционного типа', teacher:'Газгиреева Л.Х.', room:'1327',
     repeat:'weekly' },
 
   { d:2, s:'09:00', e:'10:30', subj:'Философия',
-    type:'Групповая консультация', teacher:'Газгиреева Л.Х.', pos:'профессор', room:'1333',
+    type:'Групповая консультация', teacher:'Газгиреева Л.Х.', room:'1333',
     dates:['2026-12-29'] },
 
   { d:2, s:'10:50', e:'12:20', subj:'Управление данными',
-    type:'Занятие лекционного типа', teacher:'Макарьев А.Н.', pos:'старший преподаватель', room:'1411',
+    type:'Занятие лекционного типа', teacher:'Макарьев А.Н.', room:'1411',
     repeat:'weekly' },
 
   { d:2, s:'10:50', e:'12:20', subj:'Управление данными',
-    type:'Групповая консультация', teacher:'Макарьев А.Н.', pos:'старший преподаватель', room:'1411',
+    type:'Групповая консультация', teacher:'Макарьев А.Н.', room:'1411',
     dates:['2026-12-29'] },
 
   { d:2, s:'13:00', e:'14:30', subj:'Управление данными',
-    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', pos:'старший преподаватель', room:'1412',
+    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', room:'1412',
     repeat:'odd' },
 
   { d:2, s:'13:00', e:'14:30', subj:'Философия',
-    type:'Занятие семинарского типа', teacher:'Газгиреева Л.Х.', pos:'профессор', room:'1430',
+    type:'Занятие семинарского типа', teacher:'Газгиреева Л.Х.', room:'1430',
     repeat:'even' },
 
   { d:2, s:'14:40', e:'16:10', subj:'Управление данными',
-    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', pos:'старший преподаватель', room:'1412',
+    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', room:'1412',
     repeat:'odd' },
 
   /* ---------------- СРЕДА ---------------- */
   { d:3, s:'09:00', e:'10:30', subj:'Прикладное программное обеспечение',
-    type:'Занятие лекционного типа', teacher:'Деменев А.В.', pos:'доцент', room:'1409',
+    type:'Занятие лекционного типа', teacher:'Деменев А.В.', room:'1409',
     repeat:'weekly' },
 
   { d:3, s:'10:50', e:'12:20', subj:'Прикладное программное обеспечение',
-    type:'Занятие семинарского типа', teacher:'Деменев А.В.', pos:'доцент', room:'1409',
+    type:'Занятие семинарского типа', teacher:'Деменев А.В.', room:'1409',
     repeat:'weekly' },
 
   { d:3, s:'13:00', e:'14:30', subj:'Управление данными',
-    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', pos:'старший преподаватель', room:'1412',
+    type:'Занятие семинарского типа', teacher:'Макарьев А.Н.', room:'1412',
     dates:['2026-10-21'] },
 
   { d:3, s:'16:20', e:'17:50', subj:'Прикладное программное обеспечение',
-    type:'Групповая консультация', teacher:'Деменев А.В.', pos:'доцент', room:'1439',
+    type:'Групповая консультация', teacher:'Деменев А.В.', room:'1439',
     dates:['2026-12-30'] },
 
   /* ---------------- ЧЕТВЕРГ ---------------- */
   { d:4, s:'09:00', e:'10:30', subj:'Основы электронной коммерции',
-    type:'Занятие лекционного типа', teacher:'Буланова Е.О.', pos:'старший преподаватель', room:'В1П5',
+    type:'Занятие лекционного типа', teacher:'Буланова Е.О.', room:'В1П5',
     repeat:'weekly' },
 
   { d:4, s:'10:50', e:'12:20', subj:'Основы электронной коммерции',
-    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', pos:'старший преподаватель', room:'В1П7',
+    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', room:'В1П7',
     repeat:'weekly' },
 
   { d:4, s:'13:00', e:'14:30', subj:'Основы электронной коммерции',
-    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', pos:'старший преподаватель', room:'В1П7',
+    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', room:'В1П7',
     repeat:'odd' },
 
   { d:4, s:'13:00', e:'14:30', subj:'Основы электронной коммерции',
-    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', pos:'старший преподаватель', room:'В1П4',
+    type:'Занятие семинарского типа', teacher:'Буланова Е.О.', room:'В1П4',
     dates:['2026-10-22'] },
 
   { d:4, s:'13:00', e:'14:30', subj:'Основы электронной коммерции',
-    type:'Групповая консультация', teacher:'Буланова Е.О.', pos:'старший преподаватель', room:'В1П6',
+    type:'Групповая консультация', teacher:'Буланова Е.О.', room:'В1П6',
     dates:['2026-12-17'] },
 
   /* ---------------- ПЯТНИЦА ---------------- */
   { d:5, s:'09:00', e:'10:30', subj:'Цифровой мониторинг в профессиональной деятельности',
-    type:'Занятие лекционного типа', teacher:'Каплина В.В.', pos:'старший преподаватель', room:'В1П8',
+    type:'Занятие лекционного типа', teacher:'Каплина В.В.', room:'В1П8',
     repeat:'weekly' },
 
   { d:5, s:'10:50', e:'12:20', subj:'Цифровой мониторинг в профессиональной деятельности',
-    type:'Занятие семинарского типа', teacher:'Каплина В.В.', pos:'старший преподаватель', room:'В1П3',
+    type:'Занятие семинарского типа', teacher:'Каплина В.В.', room:'В1П3',
     repeat:'weekly' },
 
   { d:5, s:'13:00', e:'14:30', subj:'Цифровой мониторинг в профессиональной деятельности',
-    type:'Занятие семинарского типа', teacher:'Каплина В.В.', pos:'старший преподаватель', room:'В1П6',
+    type:'Занятие семинарского типа', teacher:'Каплина В.В.', room:'В1П6',
     repeat:'odd' },
 
   { d:5, s:'13:00', e:'14:30', subj:'Цифровой мониторинг в профессиональной деятельности',
-    type:'Занятие семинарского типа', teacher:'Каплина В.В.', pos:'старший преподаватель', room:'В1П5',
+    type:'Занятие семинарского типа', teacher:'Каплина В.В.', room:'В1П5',
     dates:['2026-10-23'] },
 
   { d:5, s:'13:00', e:'14:30', subj:'Цифровой мониторинг в профессиональной деятельности',
-    type:'Групповая консультация', teacher:'Каплина В.В.', pos:'старший преподаватель', room:'В1П4',
+    type:'Групповая консультация', teacher:'Каплина В.В.', room:'В1П4',
     dates:['2026-12-18'] },
 
   /* ---------------- СУББОТА ---------------- */
   { d:6, s:'10:50', e:'12:20', subj:'Интеллектуальные цифровые технологии',
-    type:'Групповая консультация', teacher:'Карелина Е.Б.', pos:'доцент', room:'1412',
+    type:'Групповая консультация', teacher:'Карелина Е.Б.', room:'1412',
     dates:['2026-12-26'] },
 
   { d:6, s:'13:00', e:'14:30', subj:'Интеллектуальные цифровые технологии',
-    type:'Занятие лекционного типа', teacher:'Карелина Е.Б.', pos:'доцент', room:'1412',
+    type:'Занятие лекционного типа', teacher:'Карелина Е.Б.', room:'1412',
     repeat:'weekly' },
 
   { d:6, s:'14:40', e:'16:10', subj:'Интеллектуальные цифровые технологии',
-    type:'Занятие семинарского типа', teacher:'Карелина Е.Б.', pos:'доцент', room:'1412',
+    type:'Занятие семинарского типа', teacher:'Карелина Е.Б.', room:'1412',
     repeat:'weekly' },
 
   { d:6, s:'16:20', e:'17:50', subj:'Интеллектуальные цифровые технологии',
-    type:'Занятие семинарского типа', teacher:'Карелина Е.Б.', pos:'доцент', room:'1412',
+    type:'Занятие семинарского типа', teacher:'Карелина Е.Б.', room:'1412',
     dates:['2026-12-26'] }
 ];
 
@@ -399,14 +475,13 @@ const MON_NOM = ['Январь','Февраль','Март','Апрель','Ма
 const DAY_FULL  = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 const DAY_SHORT = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 
-/* Понедельник недели, в которую попало 13 октября 2026 — это 1-я неделя */
-const BASE_MONDAY = new Date(2026, 9, 12);
+const BASE_MONDAY = new Date(2026, 9, 12); // неделя с 13 октября 2026 = 1-я
 
 function startOfDay(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
 function addDays(d,n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
 function mondayOf(d){
   const x = startOfDay(d);
-  const wd = (x.getDay() + 6) % 7;      // 0 = понедельник
+  const wd = (x.getDay() + 6) % 7;
   x.setDate(x.getDate() - wd);
   return x;
 }
@@ -421,11 +496,18 @@ function weekNumber(d){
 }
 function toMin(t){ const p = t.split(':'); return (+p[0])*60 + (+p[1]); }
 function nowMin(){ const n = new Date(); return n.getHours()*60 + n.getMinutes(); }
+function isOnline(room){ return /[A-Za-zА-Яа-я]/.test(room); }
+
+/* Границы семестра */
+function isBeforeSem(d){ return startOfDay(d) < SEM_START; }
+function isAfterSem(d){ return startOfDay(d) > SEM_END; }
+function isInSem(d){ return !isBeforeSem(d) && !isAfterSem(d); }
 
 /* =========================================================
    ЛОГИКА РАСПИСАНИЯ
    ========================================================= */
 function lessonsFor(date){
+  if (!isInSem(date)) return [];
   const k = ymd(date);
   const w = weekNumber(date);
   return LESSONS.filter(l => {
@@ -438,13 +520,33 @@ function lessonsFor(date){
   }).sort((a,b) => a.s.localeCompare(b.s));
 }
 
+/* Прошла ли пара (с учётом всей прошедшей недели и сегодняшнего времени) */
+function lessonState(l, date){
+  const now   = new Date();
+  const today = startOfDay(now);
+  const d     = startOfDay(date);
+
+  if (d < today) return 'past';
+  if (d > today) return '';
+
+  const nm = nowMin(), s = toMin(l.s), e = toMin(l.e);
+  if (nm >= e) return 'past';
+  if (nm >= s && nm < e) return 'now';
+  return '';
+}
+
 function nextLesson(){
   const today = startOfDay(new Date());
-  for (let i = 0; i < 30; i++){
-    const d = addDays(today, i);
+  if (isAfterSem(today)) return null;
+  const startSearch = isBeforeSem(today) ? SEM_START : today;
+
+  for (let i = 0; i < 200; i++){
+    const d = addDays(startSearch, i);
+    if (isAfterSem(d)) return null;
     const ls = lessonsFor(d);
     if (!ls.length) continue;
-    if (i === 0){
+
+    if (ymd(d) === ymd(today)){
       const nm = nowMin();
       const fut = ls.find(l => toMin(l.e) > nm);
       if (fut) return { d: d, l: fut };
@@ -465,33 +567,60 @@ let selectedDay = null;
 
 const PIN = '<svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
 
+function roomHtml(l){
+  const online = isOnline(l.room);
+  const link   = ONLINE_LINKS[l.subj];
+  if (online){
+    const label = `${PIN}<span>Онлайн</span>`;
+    return link
+      ? `<a class="lroom online" href="${link}" target="_blank" rel="noopener">${label}</a>`
+      : `<span class="lroom online">${label}</span>`;
+  }
+  return `<span class="lroom">${PIN}${l.room}</span>`;
+}
+
 function lessonCard(l, date){
   const color = SUBJECT_COLORS[l.subj] || '#6366f1';
-  const isToday = ymd(date) === ymd(new Date());
-  let cls = '';
-  if (isToday){
-    const nm = nowMin(), s = toMin(l.s), e = toMin(l.e);
-    if (nm >= e) cls = 'past';
-    else if (nm >= s && nm < e) cls = 'now';
-  }
+  const cls = lessonState(l, date);
   return `<article class="lesson ${cls}" style="--c:${color}">
     <div class="ltime"><b>${l.s}</b><span>${l.e}</span></div>
     <div class="lbody">
       <h3>${l.subj}</h3>
-      <div class="ltype">${l.type}</div>
+      <div class="ltype">${shortType(l.type)}</div>
       <div class="lmeta">
-        <span class="lteacher">${l.teacher} <i>· ${l.pos}</i></span>
-        <span class="lroom">${PIN}${l.room}</span>
+        <span class="lteacher">${l.teacher}</span>
+        ${roomHtml(l)}
       </div>
     </div>
   </article>`;
 }
 
+/* Семестровое сообщение (каникулы / расписание ещё не опубликовано) */
+function semesterEmptyHtml(date){
+  if (isBeforeSem(date)){
+    return `<div class="empty">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <div class="et">Расписание ещё не опубликовано</div>
+      <div class="es">Загляните позже — скоро начнётся новый семестр.</div>
+    </div>`;
+  }
+  return `<div class="empty">
+    <svg viewBox="0 0 24 24"><path d="M12 3v4M12 3l-3 3M12 3l3 3"/><path d="M5 11h14l-1.2 7.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 11z"/><path d="M9 15h6"/></svg>
+    <div class="et">Ура, каникулы! 🎄</div>
+    <div class="es">С Новым годом! Расписание обновится с началом 8 семестра.</div>
+  </div>`;
+}
+
 /* ---------- СЕГОДНЯ ---------- */
 function renderToday(){
   const today = startOfDay(new Date());
-  const list  = lessonsFor(today);
-  const wn    = weekNumber(today);
+
+  if (!isInSem(today)){
+    return semesterEmptyHtml(today);
+  }
+
+  const list = lessonsFor(today);
+  const wn   = weekNumber(today);
 
   let html = `<div class="page-head">
       <div class="ph-day">${DAY_FULL[today.getDay()]}</div>
@@ -519,26 +648,43 @@ function renderToday(){
 function renderWeek(){
   const mon = weekRef;
   const sun = addDays(mon, 6);
-  const wn  = weekNumber(mon);
+
+  /* Полностью вне семестра */
+  if (isAfterSem(mon) || isBeforeSem(sun)){
+    return `<div class="nav-row">
+        <button class="nav-btn" data-nav="prev" ${isBeforeSem(mon) ? 'disabled' : ''} aria-label="Предыдущая неделя">‹</button>
+        <div class="nav-title">
+          <div class="nt-main">${mon.getDate()} ${MON_GEN[mon.getMonth()]} – ${sun.getDate()} ${MON_GEN[sun.getMonth()]}</div>
+          <div class="nt-sub">вне семестра</div>
+        </div>
+        <button class="nav-btn" data-nav="next" ${isAfterSem(sun) ? 'disabled' : ''} aria-label="Следующая неделя">›</button>
+      </div>` + semesterEmptyHtml(isAfterSem(mon) ? mon : sun);
+  }
+
+  const wn = weekNumber(mon);
   const range = (mon.getMonth() === sun.getMonth())
     ? `${mon.getDate()} – ${sun.getDate()} ${MON_GEN[sun.getMonth()]}`
     : `${mon.getDate()} ${MON_GEN[mon.getMonth()]} – ${sun.getDate()} ${MON_GEN[sun.getMonth()]}`;
 
+  const prevDisabled = isBeforeSem(mon) || !isInSem(addDays(mon, -1));
+  const nextDisabled = isAfterSem(sun)  || !isInSem(addDays(sun, 1));
+
   let html = `<div class="nav-row">
-      <button class="nav-btn" data-nav="prev" aria-label="Предыдущая неделя">‹</button>
+      <button class="nav-btn" data-nav="prev" ${prevDisabled ? 'disabled' : ''} aria-label="Предыдущая неделя">‹</button>
       <div class="nav-title">
         <div class="nt-main">${range}</div>
         <div class="nt-sub">${wn} неделя</div>
       </div>
-      <button class="nav-btn" data-nav="next" aria-label="Следующая неделя">›</button>
+      <button class="nav-btn" data-nav="next" ${nextDisabled ? 'disabled' : ''} aria-label="Следующая неделя">›</button>
     </div>`;
 
   const todayKey = ymd(new Date());
 
   for (let i = 0; i < 7; i++){
-    const d  = addDays(mon, i);
+    const d = addDays(mon, i);
+    if (!isInSem(d)) continue;
     const ls = lessonsFor(d);
-    if (i === 6 && !ls.length) continue;              // воскресенье без пар не показываем
+    if (i === 6 && !ls.length) continue;
     const isToday = ymd(d) === todayKey;
 
     html += `<section class="dayblock ${isToday ? 'is-today' : ''}">
@@ -562,45 +708,75 @@ function renderMonth(){
   const y = monthRef.getFullYear();
   const m = monthRef.getMonth();
   const first = new Date(y, m, 1);
+  const last  = new Date(y, m + 1, 0);
+
+  /* Месяц полностью вне семестра */
+  if (isAfterSem(first) || isBeforeSem(last)){
+    const prevDisabled = !isInSem(addDays(first, -1));
+    const nextDisabled = !isInSem(addDays(last,  1));
+    return `<div class="nav-row">
+        <button class="nav-btn" data-nav="prev" ${prevDisabled ? 'disabled' : ''} aria-label="Предыдущий месяц">‹</button>
+        <div class="nav-title">
+          <div class="nt-main">${MON_NOM[m]} ${y}</div>
+          <div class="nt-sub">вне семестра</div>
+        </div>
+        <button class="nav-btn" data-nav="next" ${nextDisabled ? 'disabled' : ''} aria-label="Следующий месяц">›</button>
+      </div>` + semesterEmptyHtml(isAfterSem(first) ? first : last);
+  }
+
   const gridStart = mondayOf(first);
   const todayKey = ymd(new Date());
 
-  if (!selectedDay){
+  if (!selectedDay || !isInSem(new Date(selectedDay + 'T00:00:00'))){
     const t = new Date();
-    selectedDay = (t.getFullYear() === y && t.getMonth() === m) ? ymd(t) : ymd(first);
+    selectedDay = (t.getFullYear() === y && t.getMonth() === m && isInSem(t))
+      ? ymd(t)
+      : ymd(first);
   }
 
+  const prevDisabled = !isInSem(addDays(first, -1));
+  const nextDisabled = !isInSem(addDays(last,  1));
+
   let html = `<div class="nav-row">
-      <button class="nav-btn" data-nav="prev" aria-label="Предыдущий месяц">‹</button>
+      <button class="nav-btn" data-nav="prev" ${prevDisabled ? 'disabled' : ''} aria-label="Предыдущий месяц">‹</button>
       <div class="nav-title">
         <div class="nt-main">${MON_NOM[m]} ${y}</div>
         <div class="nt-sub">выберите день</div>
       </div>
-      <button class="nav-btn" data-nav="next" aria-label="Следующий месяц">›</button>
+      <button class="nav-btn" data-nav="next" ${nextDisabled ? 'disabled' : ''} aria-label="Следующий месяц">›</button>
     </div>`;
 
   html += `<div class="cal">
     <div class="cal-head">${[1,2,3,4,5,6,0].map(i => `<span>${DAY_SHORT[i]}</span>`).join('')}</div>
     <div class="cal-grid">`;
 
+  const today = startOfDay(new Date());
+
   for (let i = 0; i < 42; i++){
     const d  = addDays(gridStart, i);
-    const ls = lessonsFor(d);
     const out = d.getMonth() !== m;
+    const inSem = isInSem(d);
+    const ls = inSem ? lessonsFor(d) : [];
     const isToday = ymd(d) === todayKey;
     const isSel = ymd(d) === selectedDay;
+    const isPast = inSem && startOfDay(d) < today;
     const dots = ls.slice(0,3).map(l =>
       `<i style="background:${SUBJECT_COLORS[l.subj] || '#6366f1'}"></i>`).join('');
 
-    html += `<button class="mcell ${out?'out':''} ${isToday?'today':''} ${isSel?'sel':''}"
-               data-date="${ymd(d)}">
+    const classes = ['mcell'];
+    if (out) classes.push('out');
+    if (!inSem) classes.push('disabled');
+    if (isToday) classes.push('today');
+    if (isSel) classes.push('sel');
+    if (isPast && !isToday && !isSel) classes.push('past');
+
+    html += `<button class="${classes.join(' ')}" ${inSem ? `data-date="${ymd(d)}"` : 'disabled'}>
         <span class="mnum">${d.getDate()}</span>
         <span class="dots">${dots}</span>
       </button>`;
   }
   html += `</div></div>`;
 
-  /* выбранный день */
   const sd = new Date(selectedDay + 'T00:00:00');
   const sdLessons = lessonsFor(sd);
   html += `<div class="sel-title">${DAY_FULL[sd.getDay()]}, ${sd.getDate()} ${MON_GEN[sd.getMonth()]}</div>`;
@@ -642,18 +818,27 @@ document.querySelector('.tabbar').addEventListener('click', e => {
 
 document.getElementById('app').addEventListener('click', e => {
   const cell = e.target.closest('.mcell');
-  if (cell){
+  if (cell && cell.dataset.date){
     selectedDay = cell.dataset.date;
     render(false);
     return;
   }
   const nav = e.target.closest('[data-nav]');
-  if (nav){
+  if (nav && !nav.disabled){
     const dir = nav.dataset.nav === 'next' ? 1 : -1;
     if (view === 'week'){
-      weekRef = addDays(weekRef, 7 * dir);
+      const candidate = addDays(weekRef, 7 * dir);
+      /* не уходим за пределы семестра */
+      const candSun = addDays(candidate, 6);
+      if (dir < 0 && isBeforeSem(candSun) && !isInSem(candidate)) return;
+      if (dir > 0 && isAfterSem(candidate) && !isInSem(candSun)) return;
+      weekRef = candidate;
     } else if (view === 'month'){
-      monthRef = new Date(monthRef.getFullYear(), monthRef.getMonth() + dir, 1);
+      const candidate = new Date(monthRef.getFullYear(), monthRef.getMonth() + dir, 1);
+      const candLast  = new Date(candidate.getFullYear(), candidate.getMonth() + 1, 0);
+      if (dir < 0 && isBeforeSem(candLast) && !isInSem(candidate)) return;
+      if (dir > 0 && isAfterSem(candidate) && !isInSem(candLast)) return;
+      monthRef = candidate;
       selectedDay = null;
     }
     render(true);
@@ -664,7 +849,16 @@ document.getElementById('app').addEventListener('click', e => {
 setInterval(() => { if (view === 'today') render(false); }, 60000);
 
 /* =========================================================
-   PWA: ИКОНКА И МАНИФЕСТ (для установки на домашний экран)
+   СЛУЧАЙНОЕ ПОЖЕЛАНИЕ
+   ========================================================= */
+(function setWish(){
+  const el = document.getElementById('wish');
+  if (!el) return;
+  el.textContent = WISHES[Math.floor(Math.random() * WISHES.length)];
+})();
+
+/* =========================================================
+   PWA: ИКОНКА И МАНИФЕСТ
    ========================================================= */
 function roundRect(ctx, x, y, w, h, r){
   ctx.beginPath();
@@ -723,9 +917,9 @@ function makeIcon(size){
     document.getElementById('apple-icon').href = icon180;
 
     const manifest = {
-      name: 'Расписание · 02.ССД-23-5',
+      name: 'Расписание · ССД-23-5',
       short_name: 'Расписание',
-      description: 'Расписание занятий группы 02.ССД-23-5',
+      description: 'Расписание занятий группы ССД-23-5',
       start_url: '.',
       scope: '.',
       display: 'standalone',
